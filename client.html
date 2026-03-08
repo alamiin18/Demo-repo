@@ -200,8 +200,9 @@
       if (!username) return;
 
       myUsername = username;
-      ws = new WebSocket(`ws://${location.host}/ws/${encodeURIComponent(username)}`);
-
+      // ✅ Fixed - works on both localhost AND ngrok
+    const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
+    ws = new WebSocket(`${protocol}://${location.host}/ws/${encodeURIComponent(username)}`);
       ws.onopen = () => {
         // Connection opened; wait for server welcome/error
       };
